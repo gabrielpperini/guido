@@ -1,14 +1,26 @@
 import React, {Component} from 'react';
-import {Text, View , Image , TouchableOpacity , Dimensions , ImageBackground , TextInput , AsyncStorage , Keyboard} from 'react-native';
+import {Text, 
+    View,
+    Image,
+    TouchableOpacity,
+    ImageBackground,
+    TextInput,
+    AsyncStorage,
+    Keyboard,
+    ActivityIndicator
+} from 'react-native';
 import assets from '../../assets';
 import styles from '../styles'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Api  from '../../Api'
 
-const dim = Dimensions.get("window");
-
 
 export default class Login extends Component {
+    
+    static navigationOptions = {
+        drawerLockMode: 'locked-closed',
+    };
+    
     
     constructor(props){
         super(props);
@@ -19,10 +31,12 @@ export default class Login extends Component {
         marginTextInput: 75,
         marginButton: 30,
         cpf: null,
-        errorCpf: 'none'
+        errorCpf: 'none',
+        load: false
     }
 
     login = async (cpf) => {
+        this.setState({load: true});
         var userData = await Api.LoginApi.users(cpf);
         if(userData.user){
             Keyboard.dismiss();
@@ -31,11 +45,12 @@ export default class Login extends Component {
                 auth: 1
             };
             await AsyncStorage.setItem('user', JSON.stringify(user) );
-            this.setState({cpf: '', errorCpf: 'none'});
             this.props.navigation.navigate('Home');
+            this.setState({cpf: '', errorCpf: 'none'});
         }else{
             this.setState({errorCpf: 'flex' })
         }
+        this.setState({load: false});
         
     }
 
@@ -85,7 +100,8 @@ export default class Login extends Component {
                 }, styles.login.button]}
                 onPress={() => this.login(this.state.cpf)}
                 >
-                    <Text style={styles.login.buttonText}>Entrar</Text>
+                    <Text style={[styles.login.buttonText,{display: this.state.load ? 'none' : 'flex'}]}>Entrar</Text>
+                    <ActivityIndicator style={{display: this.state.load ?'flex'  : 'none'}} size={40} color={"#FFFFFF"} />
                 </TouchableOpacity>
             </ImageBackground>
         );

@@ -12,6 +12,8 @@ import Menu from "./src/components/Menu";
 import Header from './src/components/Header'
 import Login from "./src/components/Login";
 import PdfComponent from "./src/components/PdfComponent";
+import New from "./src/screens/New";
+import Politica from "./src/screens/Politica";
 
 const AppNavigator = createDrawerNavigator({
   Home: Home,
@@ -20,7 +22,8 @@ const AppNavigator = createDrawerNavigator({
   Vacinas: Vacinas,
   Consultas: Consultas,
   Prontuarios: Prontuarios,
-  Pdf: PdfComponent
+  New: New,
+  Politica: Politica
 } , { 
   initialRouteName: 'Home',
   contentComponent: Menu
@@ -28,6 +31,7 @@ const AppNavigator = createDrawerNavigator({
 
 const t = createStackNavigator({
     Main: AppNavigator,
+    Pdf: PdfComponent,
 },{
   headerMode: 'screen',
   defaultNavigationOptions: ({navigation}) =>  ({

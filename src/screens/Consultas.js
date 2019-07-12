@@ -1,58 +1,33 @@
 import React, {Component} from 'react';
-import { View , Text , ScrollView , FlatList } from 'react-native';
+import { ActivityIndicator , Text , ScrollView , FlatList , AsyncStorage} from 'react-native';
 import styles from '../styles';
 import assets from '../../assets';
 import ScreenDefault from './screendefault';
 import ConsultasComponent from '../components/ConsultasComponent';
+import Api from '../../Api';
 
-const consultas = [
-    {
-        id: 1,
-        idAnimal: '1',
-        date: '28/06/2019',
-        hour: '13:00',
-        description: 'Revisão Geral'
-    },
-    {
-        id: 2,
-        idAnimal: '2',
-        date: '29/06/2019',
-        hour: '13:00',
-        description: 'Revisão Geral'
-    },
-    {
-        id: 3,
-        idAnimal: '3',
-        date: '30/06/2019',
-        hour: '13:00',
-        description: 'Revisão Geral'
-    },
-    {
-        id: 4,
-        idAnimal: '4',
-        date: '01/07/2019',
-        hour: '13:00',
-        description: 'Revisão Geral'
-    },
-    {
-        id: 5,
-        idAnimal: '5',
-        date: '02/07/2019',
-        hour: '13:00',
-        description: 'Revisão Geral'
-    },
-    {
-        id: 6,
-        idAnimal: '6',
-        date: '03/07/2019',
-        hour: '13:00',
-        description: 'Revisão Geral'
-    },
-]
 
 export default class Consultas extends Component {
-    static navigationOptions = {
-        header: null
+
+    state = {
+        consultas: {},
+        load: false,
+        pets: {}
+    }
+
+    async componentDidMount(){
+        this.setState({load: true});
+        let consultas = await Api.Consultas();
+        let userJSON = await AsyncStorage.getItem('user');
+        let user = JSON.parse(userJSON).user;
+        if(!user){
+            this.props.navigation.navigate('Login');
+        }else{
+            let pets = user.pets;
+            this.setState({pets});
+        }
+        this.setState({consultas})
+        this.setState({load: false});
     }
     
     render() {
@@ -61,19 +36,24 @@ export default class Consultas extends Component {
                 <ScrollView style={styles.usualy.scrollView}> 
                     <Text style={styles.usualy.title}>Consultas</Text>
                     <FlatList
-                        data={consultas}
+                        data={this.state.consultas}
                         style={styles.usualy.flatList}
                         renderItem={({ item }) => (
                             <ConsultasComponent
-                            idAnimal={item.id}
-                            description={item.description}
-                            date={item.date}
-                            hour={item.hour}
+                            idAnimal={item.pet}
+                            description={item.descricao}
+                            date={item.data}
+                            hour={item.hora}
+                            pets={this.state.pets}
                             />
                         )}
                         keyExtractor={item => item.id}
-                        extraData={consultas}
+                        extraData={this.state.consultas}
                     />
+                    <ActivityIndicator style={{
+                        display: this.state.load ? 'flex'  : 'none',
+                        marginTop: 50,
+                    }} size={100} color={"#FFFFFF"} />
                 </ScrollView>
             </ScreenDefault>
         );

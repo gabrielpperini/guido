@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View , Image , TouchableWithoutFeedback , Dimensions} from 'react-native';
+import {Text, View , Image , TouchableOpacity , Dimensions} from 'react-native';
 import styles from "../styles"
 
 
@@ -20,6 +20,11 @@ export default class News extends Component {
                 <Image source={this.props.image} style={styles.news.image}/>
                 :null
                 }
+                <TouchableOpacity style={styles.news.touchable} onPress={() => {
+                    this.props.navigation.navigate('New', {item: this.props.item});
+                }}>
+                    <Text style={styles.news.textButton}>Leia +</Text>
+                </TouchableOpacity>
             </View>
         );
     }

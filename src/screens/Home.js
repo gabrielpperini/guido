@@ -1,66 +1,75 @@
 import React, {Component} from 'react';
-import { View , Text , FlatList , Dimensions , ScrollView , Image, AsyncStorage} from 'react-native';
+import { NetInfo , Text , FlatList , Dimensions , ScrollView , ActivityIndicator, AsyncStorage} from 'react-native';
 import styles from '../styles';
 import assets from '../../assets';
 import ScreenDefault from './screendefault';
 import News from '../components/News';
+import Api from '../../Api';
 
 
 const dim = Dimensions.get("window");
 
-const news = [
-    {
-        id: 1,
-        title: "News Title",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel rhoncus lorem. Aliquam sed orci sit amet eros accumsan viverra. Donec consequat enim vel mauris gravida faucibus. Suspendisse id egestas purus.",
-    },
-    {
-        id: 2,
-        title: "News Title",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel rhoncus lorem. Aliquam sed orci sit amet eros accumsan viverra. Donec consequat enim vel mauris gravida faucibus. Suspendisse id egestas purus.",
-        image: assets.news
-    },
-    {
-        id: 3,
-        title: "News Title",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel rhoncus lorem. Aliquam sed orci sit amet eros accumsan viverra. Donec consequat enim vel mauris gravida faucibus. Suspendisse id egestas purus.",
-    },
-    {
-        id: 4,
-        title: "News Title",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel rhoncus lorem. Aliquam sed orci sit amet eros accumsan viverra. Donec consequat enim vel mauris gravida faucibus. Suspendisse id egestas purus.",
-        image: assets.news
-    },
-]
-
 export default class Home extends Component {
 
+    state = {
+        news: null,
+        load: false,
+    }
+
+    
     async componentDidMount(){
+        this.setState({load: true});
         let userJSON = await AsyncStorage.getItem('user');
         let user = JSON.parse(userJSON);
+
+        NetInfo.getConnectionInfo().then(async state => {
+            console.log(state);
+            if(state.type !== 'none'){
+                let userData = await Api.LoginApi.users(user.user.cpf);
+                var userNew = {
+                    user: userData.user,
+                    auth: 1
+                };
+                await AsyncStorage.setItem('user', JSON.stringify(userNew) );
+                user =  userNew;
+            }
+        });
+
+        console.log(user,'user');
+
         if(!user){
             this.props.navigation.navigate('Login');
         }
+        let news = await Api.News.home();
+        this.setState({news});
+        this.setState({load: false});
     }
     
     render() {
         return (
             <ScreenDefault>
+                
                 <ScrollView> 
                     <Text style={styles.usualy.title}>Home</Text>
                     <FlatList
-                        data={news}
+                        data={this.state.news}
                         style={styles.usualy.flatList}
                         renderItem={({ item }) => (
                             <News
-                            title={item.title}
-                            text={item.text}
-                            image={item.image}
+                            title={item.titulo}
+                            text={item.chamada}
+                            image={{uri: 'http://www.lucianaguidolin.com.br/uploads/default/files/novidades/' + item.thumbnail}}
+                            item={item}
+                            navigation={this.props.navigation}
                             />
                         )}
                         keyExtractor={item => item.id}
-                        extraData={news}
+                        extraData={this.state.news}
                     />
+                    <ActivityIndicator style={{
+                        display: this.state.load ? 'flex'  : 'none',
+                        marginTop: 50,
+                    }} size={100} color={"#FFFFFF"} />
                 </ScrollView>
             </ScreenDefault>
         );

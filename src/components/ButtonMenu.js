@@ -12,7 +12,6 @@ class ButtonMenu extends Component{
                     this.props.navigation.navigate(this.props.link);
                 }else{
                     this.props.func();
-                    this.props.navigation.navigate(this.props.link);
                 }
             }}
             style={styles.buttonMenu.button}

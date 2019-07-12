@@ -841,6 +841,11 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
+"@react-native-community/netinfo@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-4.0.0.tgz#fd1fb453a3a9def3d64244a29a16159235f99341"
+  integrity sha512-jpeSQF4hb4fRI03uMmAwXyuObn+AdbL01zGQiUIcR9EDo+eu/q8tc4Z2kuxv2uTCfj+r/fptrElZDLd/ybMzuQ==
+
 "@react-navigation/core@~3.4.1":
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.4.2.tgz#bec563e94fde40fbab3730cdc97f22afbb2a1498"
@@ -4965,6 +4970,11 @@ react-native-linear-gradient@^2.5.4:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.4.tgz#dce133526f5a5510a639af94544f1ed0c984bd1e"
   integrity sha512-FF1NhlerA4uBiS0gFIHa4FBp8/aftv4vPj14Y47lGNkYjSI94tnI6oYO3EfUxXjEyCUPiOVNKZOB9kScyjc5Ew==
 
+react-native-netinfo@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-netinfo/-/react-native-netinfo-1.1.0.tgz#343a4a9413006493f350bc7923688bb3315c3dce"
+  integrity sha512-muGzEvfCm9i+MF1qgPF1LsUmRxaTUWQ9i2TTbBoE/DBfsprv4Ds27iYLQvAgX5QzAMJm+iYKCq+3QN/hvPxrsQ==
+
 react-native-pdf@^5.1.3:
   version "5.1.3"
   resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-5.1.3.tgz#e68ecfdfe69f1b762fb2923138fb098c6ab09daa"
@@ -5000,11 +5010,6 @@ react-native-vector-icons@^6.5.0:
     lodash "^4.0.0"
     prop-types "^15.6.2"
     yargs "^13.2.2"
-
-react-native-view-pdf@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/react-native-view-pdf/-/react-native-view-pdf-0.8.6.tgz#4dbfed09befbf179ccff3fc47f6d9df2280f4ec8"
-  integrity sha512-xj6km0XX7W+8uHex5yLNOM9nJdS/t6yj7IOYfH3UHZLB+X1wF961bnf7gY6ouckqNDek1m/9ARecNMWVZlKHiw==
 
 react-native@0.59.8:
   version "0.59.8"
@@ -5379,7 +5384,7 @@ rimraf@~2.2.6:
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
 
-rn-fetch-blob@^0.10.13:
+rn-fetch-blob@^0.10.15:
   version "0.10.15"
   resolved "https://registry.yarnpkg.com/rn-fetch-blob/-/rn-fetch-blob-0.10.15.tgz#3526860c1c57e0bf4c09bdbe409c919264afffba"
   integrity sha512-/m/gurTaPAvR3J843uehHhznj5k89x7XClyO5ejmbspNLNQ4ByF+kZs80wiiKGWntj+Wqo0jJu1goArXEfc0kA==

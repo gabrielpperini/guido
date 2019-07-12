@@ -8,70 +8,47 @@ import { NavigationActions } from 'react-navigation';
 
 const dim = Dimensions.get('window');
 
-const pets = [
-    {
-        id: 1,
-        name: 'Rodolfo',
-        prontuario: 'https://quicksearch.com.br/assets/app/politica_privacidade.pdf',
-    },
-    {
-        id: 2,
-        name: 'Gregório',
-        prontuario: 'https://quicksearch.com.br/assets/app/politica_privacidade.pdf',
-    },
-    {
-        id: 3,
-        name: 'Fred',
-        prontuario: 'https://quicksearch.com.br/assets/app/politica_privacidade.pdf',
-    },
-    {
-        id: 4,
-        name: 'Garfield',
-        prontuario: 'https://quicksearch.com.br/assets/app/politica_privacidade.pdf',
-    },
-]
-
 export default class PdfComponent extends Component {
     
     state={
-        doc: 1,
+        numberOfPages: 0,
     }
 
-    componentWillUnmount(){
-        console.log('unmonto pdf')
-    }
+    static navigationOptions = {
+        header: null
+    };
+
     
     render() {
         return (
             <View style={{
                 flex: 1,
+            }}>
+            <View style={{
                 backgroundColor: '#5ADDB1',
+                height: 80
             }}>
                 <Icon
                 name={'arrow-left'}
                 color={'white'}
                 size={30}
                 onPress={() => {
-                    const backAction = NavigationActions.back({ 
-                        index: 6,
-                        actions: [
-                          NavigationActions.navigate({ routeName: 'Prontuarios'})
-                        ],
-                        key: null
-                    });
-                    this.props.navigation.dispatch(backAction);
+                    this.props.navigation.goBack();
                 }}
                 style={{
                     paddingHorizontal: 25,
                     paddingVertical: 25,
                 }}
                 />
-                {//pets.map((element) => {
-                // return ( 
+            </View>
                     <Pdf
-                    source={{uri: 'https://quicksearch.com.br/assets/app/politica_privacidade.pdf' , cache: true}}
+                    ref={(pdf) => {
+                        this.pdf = pdf;
+                    }}
+                    source={{uri: this.props.navigation.state.params.prontuario , cache: true}}
                     onLoadComplete={(numberOfPages,filePath)=>{
                         console.log(`number of pages: ${numberOfPages}`);
+                        this.setState({numberOfPages})
                     }}
                     onPageChanged={(page,numberOfPages)=>{
                         console.log(`document  current page: ${page}`);
@@ -79,17 +56,10 @@ export default class PdfComponent extends Component {
                     onError={(error)=>{console.log(error);}}
                     style={{
                         backgroundColor: '#404040',
-                        position: 'absolute',
-                        height: dim.height - 80,
+                        height: dim.height - 100,
                         width: dim.width,
-                        // top: (element.id === this.state.doc) ? 80 : dim.height,
-                        top: 80,
                     }}
                 /> 
-                // ) 
-                
-                // })
-                }
             </View>    
         )
     }

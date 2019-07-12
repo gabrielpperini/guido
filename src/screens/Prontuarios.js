@@ -1,41 +1,24 @@
 import React, {Component} from 'react';
-import { View , Text , ScrollView , Image , FlatList , Dimensions } from 'react-native';
+import { View , Text , ScrollView , AsyncStorage , FlatList } from 'react-native';
 import styles from '../styles';
 import assets from '../../assets';
 import ScreenDefault from './screendefault';
 import ProntuarioComponent from '../components/ProntuarioComponent';
-import Pdf from 'react-native-pdf';
 
-
-const dim = Dimensions.get('window');
-
-const pets = [
-    {
-        id: 1,
-        name: 'Rodolfo',
-        prontuario: 'https://quicksearch.com.br/assets/app/politica_privacidade.pdf',
-    },
-    {
-        id: 2,
-        name: 'Gregório',
-        prontuario: 'http://judorecreio.com.br/manualdigital/documents/11%20KI%C3%9B%20BRANCA_CINZA.pdf',
-    },
-    {
-        id: 3,
-        name: 'Fred',
-        prontuario: 'https://quicksearch.com.br/assets/app/politica_privacidade.pdf',
-    },
-    {
-        id: 4,
-        name: 'Garfield',
-        prontuario: 'https://quicksearch.com.br/assets/app/politica_privacidade.pdf',
-    },
-]
 
 export default class Prontuarios extends Component {
     
-    componentWillUnmount(){
-        console.log('desmonto prontuaios')
+    state={
+        pets: {}
+    }
+
+    async componentDidMount(){
+        let userJSON = await AsyncStorage.getItem('user');
+        let pets = JSON.parse(userJSON).user.pets;
+        
+        pets = Object.entries(pets);
+        this.setState({pets});
+
     }
     
     render() {
@@ -44,17 +27,18 @@ export default class Prontuarios extends Component {
                 <ScrollView style={styles.usualy.scrollView} > 
                     <Text style={styles.usualy.title}>Prontuários</Text>
                     <FlatList
-                        data={pets}
+                        data={this.state.pets}
                         style={styles.usualy.flatList}
                         renderItem={({ item }) => (
                             <ProntuarioComponent
-                            id={item.id}
-                            name={item.name}
+                            id={item[1].id}
+                            name={item[1].nome}
+                            prontuario={item[1].prontuario}
                             navigation={this.props.navigation}
                             />
                         )}
                         keyExtractor={item => item.id}
-                        extraData={pets}
+                        extraData={this.state.pets}
                     />
                 </ScrollView>
             </ScreenDefault>

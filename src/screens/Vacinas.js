@@ -1,47 +1,27 @@
 import React, {Component} from 'react';
-import { View , Text , ScrollView , Image , FlatList , Dimensions} from 'react-native';
+import { View , Text , ScrollView , ActivityIndicator , FlatList , Dimensions} from 'react-native';
 import styles from '../styles';
 import assets from '../../assets';
 import ScreenDefault from './screendefault';
 import VacinasComponent from '../components/VacinasComponent';
+import Api from '../../Api';
 
 const dim = Dimensions.get("window");
 
 
-const vacinas = [
-    {
-        id: 1,
-        content: 'Vacina 1',
-        date: '28/06/2019'
-    },
-    {
-        id: 2,
-        content: 'Vacina 2',
-        date: '29/06/2019'
-    },
-    {
-        id: 3,
-        content: 'Vacina 3',
-        date: '30/06/2019'
-    },
-    {
-        id: 4,
-        content: 'Vacina 4',
-        date: '01/07/2019'
-    },
-    {
-        id: 5,
-        content: 'Vacina 5',
-        date: '02/07/2019'
-    },
-    {
-        id: 6,
-        content: 'Vacina 6',
-        date: '03/07/2019'
-    },
-]
-
 export default class Vacinas extends Component {
+    
+    state = {
+        vacinas: {},
+        load: false
+    }
+
+    async componentDidMount(){
+        this.setState({load: true});
+        let vacinas = await Api.Vacinas();
+        this.setState({vacinas})
+        this.setState({load: false});
+    }
     
     render() {
         return (
@@ -49,17 +29,21 @@ export default class Vacinas extends Component {
                 <ScrollView style={styles.usualy.scrollView}> 
                     <Text style={styles.usualy.title}>Vacinas</Text>
                     <FlatList
-                        data={vacinas}
+                        data={this.state.vacinas}
                         style={styles.usualy.flatList}
                         renderItem={({ item }) => (
                             <VacinasComponent
-                            content={item.content}
-                            date={item.date}
+                            content={item.titulo}
+                            date={item.data}
                             />
                         )}
                         keyExtractor={item => item.id}
-                        extraData={vacinas}
+                        extraData={this.state.vacinas}
                     />
+                    <ActivityIndicator style={{
+                        display: this.state.load ? 'flex'  : 'none',
+                        marginTop: 50,
+                    }} size={100} color={"#FFFFFF"} />
                 </ScrollView>
             </ScreenDefault>
         );

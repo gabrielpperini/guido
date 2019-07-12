@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { View,  TouchableWithoutFeedback  , AsyncStorage , Animated , Easing  } from 'react-native'
 import  styles  from "../styles"
 import ButtonMenu from './ButtonMenu';
+import { NavigationActions } from 'react-navigation';
 
 
 
@@ -23,9 +24,10 @@ class Menu extends Component{
                     <ButtonMenu navigation={this.props.navigation} link={'Vacinas'} title={'Vacinas'} icon={'tint'} />
                     <ButtonMenu navigation={this.props.navigation} link={'Consultas'} title={'Consultas'} icon={'calendar'} />
                     <ButtonMenu navigation={this.props.navigation} link={'Prontuarios'} title={'Prontuários'} icon={'book'} />
-                    <ButtonMenu navigation={this.props.navigation} link={'Home'} title={'Política'} icon={'lock'} />
+                    <ButtonMenu navigation={this.props.navigation} link={'Politica'} title={'Política'} icon={'lock'} />
                     <ButtonMenu navigation={this.props.navigation} link={'Login'} title={'Sair'} icon={'sign-out'} func={async () => {
                         await AsyncStorage.setItem('user' , '');
+                        this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Main' })], 0)
                     }} />
             </View>
         )

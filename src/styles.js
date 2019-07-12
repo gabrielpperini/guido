@@ -46,9 +46,9 @@ export default styles = {
         view: {
             width: dim.width - 40,
             marginHorizontal: 20,
-            marginTop: 20,
-            padding: 15,
+            marginVertical: 10,
             backgroundColor: 'white',
+            padding: 15,
             borderRadius: 15,
         },
         title: {
@@ -62,11 +62,25 @@ export default styles = {
             fontSize: 16,
             textAlign: 'justify',
             fontFamily: 'Cabin Regular',
-            marginVertical: 5,
+            marginTop: 5,
         },
         image: {
             width: dim.width - 70 , 
-            borderRadius: 5
+            height: 155,
+            borderRadius: 5,
+            marginTop: 5,
+        },
+        touchable: {
+            width: '40%',
+            paddingVertical: 15,
+        },
+        textButton: {
+            textAlign: 'left',
+            paddingLeft: 5,
+            textAlignVertical: 'center',
+            color: '#094162',
+            fontSize: 20,
+            fontFamily: 'Bubblegum Sans Regular'
         }
     }),
     
@@ -107,6 +121,14 @@ export default styles = {
             textAlign: 'justify',
             fontFamily: 'Cabin Regular',
             marginVertical: 20,
+        },
+        textTitulo: {
+            color: '#094162',
+            fontSize: 30,
+            textAlignVertical: 'center',
+            textAlign: 'center',
+            fontFamily: 'Bubblegum Sans Regular',
+            marginVertical: 10
         },
         image: {
             width: dim.width - 40 , 
