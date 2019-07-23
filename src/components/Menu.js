@@ -3,6 +3,7 @@ import { View,  TouchableWithoutFeedback  , AsyncStorage , Animated , Easing  } 
 import  styles  from "../styles"
 import ButtonMenu from './ButtonMenu';
 import { NavigationActions } from 'react-navigation';
+import OneSignal from 'react-native-onesignal';
 
 
 
@@ -26,7 +27,8 @@ class Menu extends Component{
                     <ButtonMenu navigation={this.props.navigation} link={'Prontuarios'} title={'Prontuários'} icon={'book'} />
                     <ButtonMenu navigation={this.props.navigation} link={'Politica'} title={'Política'} icon={'lock'} />
                     <ButtonMenu navigation={this.props.navigation} link={'Login'} title={'Sair'} icon={'sign-out'} func={async () => {
-                        await AsyncStorage.setItem('user' , '');
+                        await AsyncStorage.removeItem('user');
+                        OneSignal.removeExternalUserId();
                         this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Main' })], 0)
                     }} />
             </View>

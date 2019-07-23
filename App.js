@@ -14,6 +14,7 @@ import Login from "./src/components/Login";
 import PdfComponent from "./src/components/PdfComponent";
 import New from "./src/screens/New";
 import Politica from "./src/screens/Politica";
+import OneSignal from 'react-native-onesignal'
 
 const AppNavigator = createDrawerNavigator({
   Home: Home,
@@ -45,6 +46,22 @@ const Router = createAppContainer(t);
 
 export default class App extends Component {
 
+    componentDidMount(){
+      OneSignal.init('94e62de8-f115-4c0b-8494-76cfb53a2847');
+      OneSignal.addEventListener("received", this.receivedPush);
+      OneSignal.addEventListener("opened", this.openedPush);
+      OneSignal.addEventListener("ids", this.idsPush);
+    }
+      
+    receivedPush(push){
+      console.log("Received Push:", push);
+    }
+    openedPush(push){
+      console.log("Opened Push:", push);
+    }
+    idsPush(push){
+      console.log("IDS Push:", push);
+    }
 
     render(){
         console.disableYellowBox = true;

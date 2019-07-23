@@ -13,6 +13,7 @@ import assets from '../../assets';
 import styles from '../styles'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Api  from '../../Api'
+import OneSignal from 'react-native-onesignal';
 
 
 export default class Login extends Component {
@@ -44,6 +45,7 @@ export default class Login extends Component {
                 user: userData.user,
                 auth: 1
             };
+            OneSignal.setExternalUserId(userData.user.cpf);
             await AsyncStorage.setItem('user', JSON.stringify(user) );
             this.props.navigation.navigate('Home');
             this.setState({cpf: '', errorCpf: 'none'});
