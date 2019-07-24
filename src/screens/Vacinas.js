@@ -1,19 +1,18 @@
 import React, {Component} from 'react';
-import { View , Text , ScrollView , ActivityIndicator , FlatList , Dimensions} from 'react-native';
+import { View , Text , ScrollView , ActivityIndicator , FlatList , RefreshControl} from 'react-native';
 import styles from '../styles';
 import assets from '../../assets';
 import ScreenDefault from './screendefault';
 import VacinasComponent from '../components/VacinasComponent';
 import Api from '../../Api';
 
-const dim = Dimensions.get("window");
-
 
 export default class Vacinas extends Component {
     
     state = {
         vacinas: {},
-        load: false
+        load: false,
+        refreshing: false
     }
 
     async componentDidMount(){
@@ -22,11 +21,25 @@ export default class Vacinas extends Component {
         this.setState({vacinas})
         this.setState({load: false});
     }
+
+    onRefresh = async () => {
+        this.setState({refreshing: true});
+        let vacinas = await Api.Vacinas();
+        this.setState({vacinas})
+        this.setState({refreshing: false});
+    }
     
     render() {
         return (
             <ScreenDefault>
-                <ScrollView style={styles.usualy.scrollView}> 
+                <ScrollView style={styles.usualy.scrollView} 
+                refreshControl={
+                    <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.onRefresh}
+                    />
+                }
+                > 
                     <Text style={styles.usualy.title}>Vacinas</Text>
                     <FlatList
                         data={this.state.vacinas}

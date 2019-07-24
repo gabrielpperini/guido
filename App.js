@@ -18,7 +18,6 @@ import OneSignal from 'react-native-onesignal'
 
 const AppNavigator = createDrawerNavigator({
   Home: Home,
-  Login: Login,
   Sobre: Sobre,
   Vacinas: Vacinas,
   Consultas: Consultas,
@@ -33,6 +32,7 @@ const AppNavigator = createDrawerNavigator({
 const t = createStackNavigator({
     Main: AppNavigator,
     Pdf: PdfComponent,
+    Login: Login,
 },{
   headerMode: 'screen',
   defaultNavigationOptions: ({navigation}) =>  ({

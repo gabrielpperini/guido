@@ -17,7 +17,7 @@ export default class Header extends Component {
 
     render() {
         let idScreen = this.props.navigation.state.index ;
-        let show = (idScreen === 1 || idScreen === 6 ) ? false : true;
+        let show = (idScreen === 5 ) ? false : true;
         
         return (
             <View style={[styles.header.view, {display: show ? 'flex' : 'none'}]}>

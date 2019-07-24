@@ -13,10 +13,6 @@ class Menu extends Component{
         super(props);
     }
 
-    componentWillUnmount(){
-        console.log('desmonto menu')
-    }
-
     render(){  
         return( 
             <View style={[styles.menu.view]}>
@@ -29,7 +25,7 @@ class Menu extends Component{
                     <ButtonMenu navigation={this.props.navigation} link={'Login'} title={'Sair'} icon={'sign-out'} func={async () => {
                         await AsyncStorage.removeItem('user');
                         OneSignal.removeExternalUserId();
-                        this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Main' })], 0)
+                        this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0)
                     }} />
             </View>
         )

@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import { NetInfo , Text , FlatList , Dimensions , ScrollView , ActivityIndicator, AsyncStorage} from 'react-native';
+import { NetInfo , Text , FlatList , Dimensions , ScrollView , ActivityIndicator, AsyncStorage , RefreshControl} from 'react-native';
 import styles from '../styles';
 import assets from '../../assets';
 import ScreenDefault from './screendefault';
 import News from '../components/News';
 import Api from '../../Api';
+import { NavigationActions } from 'react-navigation';
+
 
 
 const dim = Dimensions.get("window");
@@ -14,6 +16,7 @@ export default class Home extends Component {
     state = {
         news: null,
         load: false,
+        refreshing: false
     }
 
     
@@ -38,18 +41,33 @@ export default class Home extends Component {
         console.log(user,'user');
 
         if(!user){
-            this.props.navigation.navigate('Login');
+            this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0)
         }
         let news = await Api.News.home();
         this.setState({news});
         this.setState({load: false});
     }
+
+    onRefresh = async () => {
+        this.setState({refreshing: true});
+        let news = await Api.News.home();
+        this.setState({news});
+        this.setState({refreshing: false});
+    }
+
     
     render() {
         return (
             <ScreenDefault>
                 
-                <ScrollView> 
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this.onRefresh}
+                        />
+                    }
+                > 
                     <Text style={styles.usualy.title}>Home</Text>
                     <FlatList
                         data={this.state.news}

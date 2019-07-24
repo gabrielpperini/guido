@@ -19,7 +19,7 @@ import OneSignal from 'react-native-onesignal';
 export default class Login extends Component {
     
     static navigationOptions = {
-        drawerLockMode: 'locked-closed',
+        header: null,
     };
     
     
